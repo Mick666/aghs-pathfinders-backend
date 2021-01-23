@@ -1,4 +1,4 @@
-const Guides = [
+let Guides = [
     {
         title: 'Max Damage Build',
         createdAt: '15-01-2021',
