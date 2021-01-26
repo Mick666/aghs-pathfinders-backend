@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 const Guide = require('./schemas/guideSchema')
 const config = require('./utils/config')
 
+const http = require('http')
+
 app.use(cors())
 
 mongoose
@@ -108,17 +110,22 @@ const resolvers = {
     }
 }
 
-app.use(express.static(path.join(__dirname, '/build')))
+// app.get('/aghs-pathfinders-guides', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+// })
+
+app.use(express.static('build'))
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    playground: false
 })
 
-// server.applyMiddleware({ app, path: '/graphql' })
-server.applyMiddleware({ app, path: '/aghs-pathfinders-guides' })
+server.applyMiddleware({
+    path: '/graphql', // you should change this to whatever you want
+    app,
+})
 
 app.listen({ port: process.env.PORT || 4000 }, () => {
-    console.log('Server ready at http://localhost:4000')
+    console.log(`🚀  Server ready at http://localhost:4000`)
 })
