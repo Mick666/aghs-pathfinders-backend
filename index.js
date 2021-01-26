@@ -1,7 +1,13 @@
-const { ApolloServer, gql } = require('apollo-server')
+const path = require('path')
+const express = require('express')
+const app = express()
+const cors = require('cors')
+const { ApolloServer, gql } = require('apollo-server-express')
 const mongoose = require('mongoose')
 const Guide = require('./schemas/guideSchema')
 const config = require('./utils/config')
+
+app.use(cors())
 
 mongoose
     .connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
@@ -17,11 +23,11 @@ const typeDefs = gql`
     type Guide {
         title: String!
         createdAt: String!
-        rating: Int!
+        rating: [Int!]!
         id: ID!
         hero: String!
         itemGroups: [itemGroups!]!
-        selectedTalents: [String!]!
+        selectedTalents: [Int!]!
         levels: [Int!]!
         shards: [String!]!
         shardCombinations: [shardCombination!]!
@@ -68,10 +74,10 @@ const typeDefs = gql`
         addGuide(
             title: String!
             createdAt: String!
-            rating: Int!
+            rating: [Int!]!
             hero: String!
             itemGroups: [itemGroupInput!]!
-            selectedTalents: [String!]!
+            selectedTalents: [Int!]!
             levels: [Int!]!
             shards: [String!]!
             shardCombinations: [shardCombinationInput!]!
@@ -102,11 +108,17 @@ const resolvers = {
     }
 }
 
+app.use(express.static(path.join(__dirname, '/build')))
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    playground: false
 })
 
-server.listen(config.PORT).then(({ url }) => {
-    console.log(`Server ready at ${url}`)
+// server.applyMiddleware({ app, path: '/graphql' })
+server.applyMiddleware({ app, path: '/aghs-pathfinders-guides' })
+
+app.listen({ port: process.env.PORT || 4000 }, () => {
+    console.log('Server ready at http://localhost:4000')
 })

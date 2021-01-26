@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
         required: true
     },
     rating: {
-        type: Number,
+        type: [Number],
         required: true
     },
     hero: {
@@ -34,7 +34,7 @@ const schema = new mongoose.Schema({
         required: true,
     },
     selectedTalents: {
-        type: [String],
+        type: [Number],
         required: true
     },
     levels: {
