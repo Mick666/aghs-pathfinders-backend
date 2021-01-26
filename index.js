@@ -7,8 +7,6 @@ const mongoose = require('mongoose')
 const Guide = require('./schemas/guideSchema')
 const config = require('./utils/config')
 
-const http = require('http')
-
 app.use(cors())
 
 mongoose
@@ -116,6 +114,13 @@ const resolvers = {
 
 app.use(express.static('build'))
 
+// app.get("*", (req, res) => {
+//   let url = path.join(__dirname, '../client/build', 'index.html');
+//   if (!url.startsWith('/app/')) // since we're on local windows
+//     url = url.substring(1);
+//   res.sendFile(url);
+// });
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -127,5 +132,5 @@ server.applyMiddleware({
 })
 
 app.listen({ port: process.env.PORT || 4000 }, () => {
-    console.log(`🚀  Server ready at http://localhost:4000`)
+    console.log('🚀  Server ready at http://localhost:4000')
 })
