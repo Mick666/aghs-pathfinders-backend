@@ -52,7 +52,7 @@ function createMatchData(rawData) {
                 else changedData.levelData = convertLevelData(entry)
             })
             return changedData
-        }).filter(x => x && x.levelData?.rooms && x.levelData.rooms.length > 1)
+        }).filter(x => x && x.levelData && x.levelData.rooms && x.levelData.rooms.length > 1)
     console.log(convertedData[0])
     const convertedHeroes = Heroes
         .map(hero => {
