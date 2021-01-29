@@ -35,6 +35,14 @@ const typeDefs = gql`
         value: String!
     }
 
+    type difficultyData {
+        convertedData: Match!
+        convertedHeroes: HeroData!
+        heroAsArray: [heroDifficultyData!]!
+        victoriousGames: Match!
+        shardWinrates: [shardStats!]!
+    }
+
     type Match {
         levelData: levelData!
         players: [player!]!
@@ -64,6 +72,45 @@ const typeDefs = gql`
         value: Boolean
     }
 
+    type HeroData {
+        Axe: heroDifficultyData!
+        Disruptor: heroDifficultyData!
+        Hoodwink: heroDifficultyData!
+        Jakiro: heroDifficultyData!
+        Juggernaut: heroDifficultyData!
+        LegionCommander: heroDifficultyData!
+        Magnus: heroDifficultyData!
+        Mars: heroDifficultyData!
+        OgreMagi: heroDifficultyData!
+        Omniknight: heroDifficultyData!
+        PhantomAssassin: heroDifficultyData!
+        Phoenix: heroDifficultyData!
+        QueenofPain: heroDifficultyData!
+        ShadowFiend: heroDifficultyData!
+        Slark: heroDifficultyData!
+        Snapfire: heroDifficultyData!
+        Sniper: heroDifficultyData!
+        TemplarAssassin: heroDifficultyData!
+        Tidehunter: heroDifficultyData!
+        Tusk: heroDifficultyData!
+        Ursa: heroDifficultyData!
+        Venomancer: heroDifficultyData!
+        Viper: heroDifficultyData!
+        Weaver: heroDifficultyData!
+        Windranger: heroDifficultyData!
+        WinterWyvern: heroDifficultyData!
+        WitchDoctor: heroDifficultyData!
+    }
+
+    type heroDifficultyData {
+        deaths: Int!
+        defeats: Int!
+        hero: String!
+        totalGames: Int!
+        victories: Int!
+        id: String!
+    }
+
     type player {
         damage_dealt: Int!
         damage_taken: Int!
@@ -72,6 +119,14 @@ const typeDefs = gql`
         hero: String!
         items: [String]!
         upgrades: [String]!
+    }
+
+    type shardStats {
+        defeats: Int!
+        hero: String!
+        shard: String!
+        totalGames: Int!
+        victories: Int!
     }
 
     input itemGroupInput {
@@ -88,7 +143,7 @@ const typeDefs = gql`
         allGuides: [Guide!]!
         allHeroGuides(hero: String!): [Guide!]!
         guideSearch(hero: String!): [Guide!]!
-        allMatchData: [Match!]!
+        allMatchData: [difficultyData!]!
     }
 
     type Mutation {
