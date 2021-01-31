@@ -8,20 +8,20 @@ const sorcerer = require('./Pathfinders - Sorcerer.json')
 
 const convertHeroNames = (string) => {
     switch (string) {
-        case 'nevermore': return 'ShadowFiend'
-        case 'ogre_magi': return 'OgreMagi'
-        case 'legion_commander': return 'LegionCommander'
-        case 'phantom_assassin': return 'PhantomAssassin'
-        case 'queenofpain': return 'QueenofPain'
-        case 'templar_assassin': return 'TemplarAssassin'
-        case 'winter_wyvern': return 'WinterWyvern'
-        case 'witch_doctor': return 'WitchDoctor'
-        case 'magnataur': return 'Magnus'
-        case 'windrunner': return 'Windranger'
-        default:
-            return string
-                .replace(/([a-z])/, function (v) { return v.toUpperCase() })
-                .replace('_', ' ')
+    case 'nevermore': return 'ShadowFiend'
+    case 'ogre_magi': return 'OgreMagi'
+    case 'legion_commander': return 'LegionCommander'
+    case 'phantom_assassin': return 'PhantomAssassin'
+    case 'queenofpain': return 'QueenofPain'
+    case 'templar_assassin': return 'TemplarAssassin'
+    case 'winter_wyvern': return 'WinterWyvern'
+    case 'witch_doctor': return 'WitchDoctor'
+    case 'magnataur': return 'Magnus'
+    case 'windrunner': return 'Windranger'
+    default:
+        return string
+            .replace(/([a-z])/, function (v) { return v.toUpperCase() })
+            .replace('_', ' ')
     }
 }
 
