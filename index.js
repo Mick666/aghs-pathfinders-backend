@@ -46,12 +46,12 @@ const resolvers = {
     }
 }
 
-// app.use(express.static('build'))
+app.use(express.static('build'))
 
-// app.get('*', (req, res) => {
-//     let url = path.join(__dirname, './build', 'index.html')
-//     res.sendFile(url)
-// })
+app.get('*', (req, res) => {
+    let url = path.join(__dirname, './build', 'index.html')
+    res.sendFile(url)
+})
 
 const server = new ApolloServer({
     typeDefs,
