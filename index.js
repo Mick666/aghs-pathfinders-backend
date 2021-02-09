@@ -28,6 +28,15 @@ const resolvers = {
         guideSearch: (root, args) =>
             Guide.find({ title: new RegExp(args.hero, 'i') }),
         allMatchData: () => Stats,
+        heroStats: (root, args) =>
+            Stats.map(difficulty => {
+                // console.log([...difficulty.shardWinrates].filter(shard => shard.hero === args.hero))
+                return {
+                    shardWinrates: [...difficulty.shardWinrates].filter(shard => shard.hero === args.hero),
+                    victoriousGames: [...difficulty.victoriousGames].filter(game => game.players.filter(player => player.hero === args.hero).length > 0),
+                    singleHeroStats: difficulty.convertedHeroes[args.hero]
+                }
+            })
     },
     Mutation: {
         addGuide: (root, args) => {
@@ -37,12 +46,12 @@ const resolvers = {
     }
 }
 
-app.use(express.static('build'))
+// app.use(express.static('build'))
 
-app.get('*', (req, res) => {
-    let url = path.join(__dirname, './build', 'index.html')
-    res.sendFile(url)
-})
+// app.get('*', (req, res) => {
+//     let url = path.join(__dirname, './build', 'index.html')
+//     res.sendFile(url)
+// })
 
 const server = new ApolloServer({
     typeDefs,
@@ -50,7 +59,7 @@ const server = new ApolloServer({
 })
 
 server.applyMiddleware({
-    path: '/graphql', 
+    path: '/graphql',
     app,
 })
 

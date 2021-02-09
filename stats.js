@@ -53,7 +53,6 @@ function createMatchData(rawData) {
             })
             return changedData
         }).filter(x => x && x.levelData && x.levelData.rooms && x.levelData.rooms.length > 1)
-    console.log(convertedData[0])
     const convertedHeroes = Heroes
         .map(hero => {
             return { totalGames: 0, victories: 0, defeats: 0, deaths: 0, id: hero.id, hero: hero.name, depth: [], popularShards: [], items: [], winningShards: [] }

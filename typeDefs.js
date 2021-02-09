@@ -129,6 +129,12 @@ const typeDefs = gql`
         victories: Int!
     }
 
+    type singleHeroStats {
+        singleHeroStats: heroDifficultyData!
+        shardWinrates: [shardStats]!
+        victoriousGames: [Match!]!
+    }
+
     input itemGroupInput {
         groupName: String!
         items: [String!]!
@@ -144,6 +150,7 @@ const typeDefs = gql`
         allHeroGuides(hero: String!): [Guide!]!
         guideSearch(hero: String!): [Guide!]!
         allMatchData: [difficultyData!]!
+        heroStats(hero: String!): [singleHeroStats!]!
     }
 
     type Mutation {
