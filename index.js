@@ -22,15 +22,23 @@ mongoose
 
 const resolvers = {
     Query: {
-        allGuides: () => Guide.find({}),
+        allGuides: async (root, args) => {
+            const guides = await Guide.find({}).sort({ _id: -1 })
+            if (!args.first) return guides
+            else if (!args.after) return guides.slice(0, args.first)
+            else return guides.slice(args.after, args.after+args.first)
+        },
         allHeroGuides: (root, args) =>
-            Guide.find({ hero: args.hero }),
+            Guide.find({ hero: args.hero }).sort({ _id: -1 }),
         guideSearch: (root, args) =>
             Guide.find({ title: new RegExp(args.hero, 'i') }),
+        guideCount: (root, args) => {
+            if (args.hero) return Guide.collection.countDocuments( {hero: args.hero})
+            else return Guide.collection.countDocuments()
+        },
         allMatchData: () => Stats,
         heroStats: (root, args) =>
             Stats.map(difficulty => {
-                // console.log([...difficulty.shardWinrates].filter(shard => shard.hero === args.hero))
                 return {
                     shardWinrates: [...difficulty.shardWinrates].filter(shard => shard.hero === args.hero),
                     victoriousGames: [...difficulty.victoriousGames].filter(game => game.players.filter(player => player.hero === args.hero).length > 0),

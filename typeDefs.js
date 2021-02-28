@@ -146,9 +146,10 @@ const typeDefs = gql`
     }
 
     type Query {
-        allGuides: [Guide!]!
+        allGuides(first: Int, after: Int): [Guide!]!
         allHeroGuides(hero: String!): [Guide!]!
         guideSearch(hero: String!): [Guide!]!
+        guideCount(hero: String): Int!
         allMatchData: [difficultyData!]!
         heroStats(hero: String!): [singleHeroStats!]!
     }
