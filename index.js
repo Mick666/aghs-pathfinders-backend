@@ -36,7 +36,21 @@ const resolvers = {
             if (args.hero) return Guide.collection.countDocuments( {hero: args.hero})
             else return Guide.collection.countDocuments()
         },
-        allMatchData: () => Stats,
+        allMatchData: () => {
+            return Stats
+        },
+        victoriousMatches: (root, args) => {
+            const vicGames = Stats.map(difficulty => difficulty.victoriousGames)
+            if (!args.hero) {
+                if (!args.first && !args.after) return vicGames[args.difficulty]
+                else if (!args.after) return vicGames[args.difficulty].slice(0, args.first)
+                else return vicGames[args.difficulty].slice(args.after, args.after+args.first)
+            }
+        },
+        victoriousMatchesCount: (root, args) => {
+            const vicGames = Stats.map(difficulty => difficulty.victoriousGames)
+            if (!args.hero) return vicGames[args.difficulty].length
+        },
         heroStats: (root, args) =>
             Stats.map(difficulty => {
                 return {

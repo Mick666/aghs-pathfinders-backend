@@ -39,8 +39,12 @@ const typeDefs = gql`
         convertedData: Match!
         convertedHeroes: HeroData!
         heroAsArray: [heroDifficultyData!]!
-        victoriousGames: Match!
+        victoriousGames: [Match]!
         shardWinrates: [shardStats!]!
+    }
+
+    type victoriousMatches {
+        victoriousGame: [Match]
     }
 
     type Match {
@@ -56,9 +60,9 @@ const typeDefs = gql`
     type room {
         lives_lost: Int
         modifiers: [String]!
-        picked_elite: pickedElite
+        picked_elite: Boolean
         picked_name: String
-        unpicked_elite: pickedElite
+        unpicked_elite: Boolean
         unpicked_name: String
     }
 
@@ -76,6 +80,7 @@ const typeDefs = gql`
         Axe: heroDifficultyData!
         Disruptor: heroDifficultyData!
         Hoodwink: heroDifficultyData!
+        DragonKnight: heroDifficultyData!
         Jakiro: heroDifficultyData!
         Juggernaut: heroDifficultyData!
         LegionCommander: heroDifficultyData!
@@ -112,13 +117,13 @@ const typeDefs = gql`
     }
 
     type player {
-        damage_dealt: Int!
-        damage_taken: Int!
+        damage_dealt: Float!
+        damage_taken: Float!
         deaths: Int!
         depth: Int!
         hero: String!
-        items: [String]!
-        upgrades: [String]!
+        items: [String]
+        upgrades: [String]
     }
 
     type shardStats {
@@ -152,6 +157,8 @@ const typeDefs = gql`
         guideCount(hero: String): Int!
         allMatchData: [difficultyData!]!
         heroStats(hero: String!): [singleHeroStats!]!
+        victoriousMatches(hero: String, first: Int, after: Int, difficulty: Int!): [Match]
+        victoriousMatchesCount(hero: String, difficulty: Int!): Int!
     }
 
     type Mutation {

@@ -28,8 +28,12 @@ const convertHeroNames = (string) => {
 function convertLevelData(levels) {
     const convertedData = { rooms: [], victory: false }
     for (let key in levels) {
-        if (levels[key].lives_lost) convertedData.rooms.push(levels[key])
-        else convertedData.victory = levels[key]
+        const room = levels[key]
+        if (key === 'victory') convertedData.victory = levels[key]
+        else {
+            if (room.unpicked_elite === 'nil') room.unpicked_elite = false
+            convertedData.rooms.push(room)
+        }
     }
     return convertedData
 }
@@ -85,6 +89,7 @@ function createMatchData(rawData) {
     const heroAsArray = Object.entries(convertedHeroes).map(x => x[1])
     const shardsAsArray = Object.entries(shardWinrates).map(x => x[1])
     const victoriousGames = convertedData.filter(match => match.levelData.victory)
+    // console.log(victoriousGames[0])
     return { convertedData: convertedData, convertedHeroes: convertedHeroes, heroAsArray: heroAsArray, victoriousGames: victoriousGames, shardWinrates: shardsAsArray }
 }
 
