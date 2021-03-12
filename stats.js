@@ -59,9 +59,9 @@ function createMatchData(rawData) {
         }).filter(x => x && x.levelData && x.levelData.rooms && x.levelData.rooms.length > 1)
     const convertedHeroes = Heroes
         .map(hero => {
-            return { totalGames: 0, victories: 0, defeats: 0, deaths: 0, id: hero.id, hero: hero.name, depth: [], popularShards: [], items: [], winningShards: [] }
+            return { totalGames: 0, victories: 0, defeats: 0, deaths: 0, heroId: hero.id, hero: hero.name, depth: [], popularShards: [], items: [], winningShards: [] }
         })
-        .reduce((obj, item) => (obj[item.id] = { ...item }, obj), {})
+        .reduce((obj, item) => (obj[item.heroId] = { ...item }, obj), {})
     const shardWinrates = {}
     // console.log(convertedHeroes)
     convertedData.forEach(match => match.players.forEach(player => {
@@ -87,6 +87,7 @@ function createMatchData(rawData) {
         })
     }))
     const heroAsArray = Object.entries(convertedHeroes).map(x => x[1])
+    console.log(heroAsArray[0])
     const shardsAsArray = Object.entries(shardWinrates).map(x => x[1])
     const victoriousGames = convertedData.filter(match => match.levelData.victory)
     // console.log(victoriousGames[0])

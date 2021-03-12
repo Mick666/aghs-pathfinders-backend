@@ -113,7 +113,7 @@ const typeDefs = gql`
         hero: String!
         totalGames: Int!
         victories: Int!
-        id: String!
+        heroId: String!
     }
 
     type player {
