@@ -140,6 +140,11 @@ const typeDefs = gql`
         victoriousGames: [Match!]!
     }
 
+    type changelog {
+        title: String!
+        changes: [String!]!
+    }
+
     input itemGroupInput {
         groupName: String!
         items: [String!]!
@@ -159,6 +164,7 @@ const typeDefs = gql`
         heroStats(hero: String!): [singleHeroStats!]!
         victoriousMatches(hero: String, first: Int, after: Int, difficulty: Int!): [Match]
         victoriousMatchesCount(hero: String, difficulty: Int!): Int!
+        allChangelogs: [changelog!]!
     }
 
     type Mutation {
@@ -180,6 +186,10 @@ const typeDefs = gql`
             username: String!
             password: String!
         ): Token
+        addChangelog(
+            title: String!
+            changes: [String!]!
+        ): changelog
     }
 `
 module.exports = typeDefs

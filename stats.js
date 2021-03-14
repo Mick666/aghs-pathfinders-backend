@@ -5,23 +5,27 @@ const grandMagus = require('./Pathfinders - Apex Mage.json')
 const apexMage = require('./pathfinder.json')
 // eslint-disable-next-line
 const sorcerer = require('./Pathfinders - Sorcerer.json')
+const config = require('./utils/config')
+const axios = require('axios')
 
 const convertHeroNames = (string) => {
     switch (string) {
-    case 'nevermore': return 'ShadowFiend'
-    case 'ogre_magi': return 'OgreMagi'
-    case 'legion_commander': return 'LegionCommander'
-    case 'phantom_assassin': return 'PhantomAssassin'
-    case 'queenofpain': return 'QueenofPain'
-    case 'templar_assassin': return 'TemplarAssassin'
-    case 'winter_wyvern': return 'WinterWyvern'
-    case 'witch_doctor': return 'WitchDoctor'
-    case 'magnataur': return 'Magnus'
-    case 'windrunner': return 'Windranger'
-    default:
-        return string
-            .replace(/([a-z])/, function (v) { return v.toUpperCase() })
-            .replace('_', ' ')
+        case 'nevermore': return 'ShadowFiend'
+        case 'ogre_magi': return 'OgreMagi'
+        case 'legion_commander': return 'LegionCommander'
+        case 'phantom_assassin': return 'PhantomAssassin'
+        case 'queenofpain': return 'QueenofPain'
+        case 'templar_assassin': return 'TemplarAssassin'
+        case 'winter_wyvern': return 'WinterWyvern'
+        case 'witch_doctor': return 'WitchDoctor'
+        case 'magnataur': return 'Magnus'
+        case 'windrunner': return 'Windranger'
+        case 'dragon knight': return 'DragonKnight'
+        case 'dragon_knight': return 'DragonKnight'
+        default:
+            return string
+                .replace(/([a-z])/, function (v) { return v.toUpperCase() })
+                .replace('_', ' ')
     }
 }
 
@@ -29,6 +33,7 @@ function convertLevelData(levels) {
     const convertedData = { rooms: [], victory: false }
     for (let key in levels) {
         const room = levels[key]
+        if (!room) continue
         if (key === 'victory') convertedData.victory = levels[key]
         else {
             if (room.unpicked_elite === 'nil') room.unpicked_elite = false
@@ -38,25 +43,27 @@ function convertLevelData(levels) {
     return convertedData
 }
 
-function createMatchData(rawData) {
-    const convertedData = Object.entries(rawData)
+async function createMatchData(difficulty) {
+    const rawData = await axios.get(`${config.FIREBASE_URI}/ascension_${difficulty}.json`)
+    const convertedData = Object.entries(rawData.data)
         .map((match) => Object.entries(match[1])
             .map(ent => Object.entries(ent)).map(ent => ent[1])
             .map((ent) => ent[1])
         )
         .map((match) => match
             .map((player) => {
-                if (player.hero) return { ...player, hero: convertHeroNames(player.hero) }
+                if (player && player.hero) return { ...player, hero: convertHeroNames(player.hero) }
                 return player
             })
         ).map(match => {
             const changedData = { players: [], levelData: {} }
             match.forEach(entry => {
-                if (entry.hero) changedData.players.push(entry)
+                if (entry && entry.hero) changedData.players.push(entry)
                 else changedData.levelData = convertLevelData(entry)
             })
             return changedData
         }).filter(x => x && x.levelData && x.levelData.rooms && x.levelData.rooms.length > 1)
+    // console.log(convertedData[0])
     const convertedHeroes = Heroes
         .map(hero => {
             return { totalGames: 0, victories: 0, defeats: 0, deaths: 0, heroId: hero.id, hero: hero.name, depth: [], popularShards: [], items: [], winningShards: [] }
@@ -90,10 +97,13 @@ function createMatchData(rawData) {
     // console.log(heroAsArray[0])
     const shardsAsArray = Object.entries(shardWinrates).map(x => x[1])
     const victoriousGames = convertedData.filter(match => match.levelData.victory)
-    // console.log(victoriousGames[0])
+    // console.log(convertedData[0])
     return { convertedData: convertedData, convertedHeroes: convertedHeroes, heroAsArray: heroAsArray, victoriousGames: victoriousGames, shardWinrates: shardsAsArray }
 }
 
-const aghsStats = [createMatchData(grandMagus), createMatchData(apexMage), createMatchData(sorcerer)]
+const aghsStats = async () => {
+    console.log('test')
+    return [await createMatchData(0), await createMatchData(1), await createMatchData(2)]
+}
 
 module.exports = aghsStats

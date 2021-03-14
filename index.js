@@ -6,8 +6,10 @@ const { ApolloServer } = require('apollo-server-express')
 const mongoose = require('mongoose')
 const typeDefs = require('./typeDefs')
 const Guide = require('./schemas/guideSchema')
+const Changelog = require('./schemas/changelogSchema')
 const config = require('./utils/config')
 const Stats = require('./stats')
+const statsData = Stats()
 
 app.use(cors())
 
@@ -37,33 +39,42 @@ const resolvers = {
             else return Guide.collection.countDocuments()
         },
         allMatchData: () => {
-            return Stats
+            return statsData
         },
-        victoriousMatches: (root, args) => {
-            const vicGames = Stats.map(difficulty => difficulty.victoriousGames)
+        victoriousMatches: async (root, args) => {
+            const vicGamesStats = await Stats()
+            const vicGames = vicGamesStats.map(difficulty => difficulty.victoriousGames)
+            // console.log(statsData)
             if (!args.hero) {
                 if (!args.first && !args.after) return vicGames[args.difficulty]
                 else if (!args.after) return vicGames[args.difficulty].slice(0, args.first)
                 else return vicGames[args.difficulty].slice(args.after, args.after+args.first)
             }
         },
-        victoriousMatchesCount: (root, args) => {
-            const vicGames = Stats.map(difficulty => difficulty.victoriousGames)
+        victoriousMatchesCount: async (root, args) => {
+            const vicGames = statsData.map(difficulty => difficulty.victoriousGames)
             if (!args.hero) return vicGames[args.difficulty].length
         },
-        heroStats: (root, args) =>
-            Stats.map(difficulty => {
+        allChangelogs: (root, args) => Changelog.find({}).sort({ _id: -1}),
+        heroStats: async (root, args) => {
+            const heroStatsData = await Stats()
+            return heroStatsData.map(difficulty => {
                 return {
                     shardWinrates: [...difficulty.shardWinrates].filter(shard => shard.hero === args.hero),
                     victoriousGames: [...difficulty.victoriousGames].filter(game => game.players.filter(player => player.hero === args.hero).length > 0),
                     singleHeroStats: difficulty.convertedHeroes[args.hero]
                 }
             })
+        },
     },
     Mutation: {
         addGuide: (root, args) => {
             const newGuide = new Guide({ ...args })
             return newGuide.save()
+        },
+        addChangelog: (root, args) => {
+            const newChangelog = new Changelog({ ...args })
+            return newChangelog.save()
         }
     }
 }
