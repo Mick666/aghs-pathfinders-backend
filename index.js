@@ -42,18 +42,18 @@ const resolvers = {
             return statsData
         },
         victoriousMatches: async (root, args) => {
-            const vicGamesStats = await Stats()
-            const vicGames = vicGamesStats.map(difficulty => difficulty.victoriousGames)
+            const vicGamesStats = await Stats(args.difficulty)
+            return vicGamesStats.victoriousGames
             // console.log(statsData)
-            if (!args.hero) {
-                if (!args.first && !args.after) return vicGames[args.difficulty]
-                else if (!args.after) return vicGames[args.difficulty].slice(0, args.first)
-                else return vicGames[args.difficulty].slice(args.after, args.after+args.first)
-            }
+            // if (!args.hero) {
+            //     if (!args.first && !args.after) return vicGames
+            //     else if (!args.after) return vicGames.slice(0, args.first)
+            //     else return vicGames.slice(args.after, args.after+args.first)
+            // }
         },
         victoriousMatchesCount: async (root, args) => {
-            const vicGames = statsData.map(difficulty => difficulty.victoriousGames)
-            if (!args.hero) return vicGames[args.difficulty].length
+            const vicGamesStats = await Stats(args.difficulty)
+            return vicGamesStats.victoriousGames.length
         },
         allChangelogs: (root, args) => Changelog.find({}).sort({ _id: -1}),
         heroStats: async (root, args) => {

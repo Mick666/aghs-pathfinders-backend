@@ -101,7 +101,8 @@ async function createMatchData(difficulty) {
     return { convertedData: convertedData, convertedHeroes: convertedHeroes, heroAsArray: heroAsArray, victoriousGames: victoriousGames, shardWinrates: shardsAsArray }
 }
 
-const aghsStats = async () => {
+const aghsStats = async (difficulty) => {
+    if (difficulty) return createMatchData(difficulty)
     console.log('test')
     return [await createMatchData(0), await createMatchData(1), await createMatchData(2)]
 }
