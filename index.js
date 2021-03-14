@@ -57,14 +57,14 @@ const resolvers = {
         },
         allChangelogs: (root, args) => Changelog.find({}).sort({ _id: -1}),
         heroStats: async (root, args) => {
-            const heroStatsData = await Stats()
-            return heroStatsData.map(difficulty => {
+            const heroStats = statsData.map(difficulty => {
                 return {
                     shardWinrates: [...difficulty.shardWinrates].filter(shard => shard.hero === args.hero),
                     victoriousGames: [...difficulty.victoriousGames].filter(game => game.players.filter(player => player.hero === args.hero).length > 0),
                     singleHeroStats: difficulty.convertedHeroes[args.hero]
                 }
             })
+            return heroStats
         },
     },
     Mutation: {
