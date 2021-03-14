@@ -87,7 +87,7 @@ function createMatchData(rawData) {
         })
     }))
     const heroAsArray = Object.entries(convertedHeroes).map(x => x[1])
-    console.log(heroAsArray[0])
+    // console.log(heroAsArray[0])
     const shardsAsArray = Object.entries(shardWinrates).map(x => x[1])
     const victoriousGames = convertedData.filter(match => match.levelData.victory)
     // console.log(victoriousGames[0])
