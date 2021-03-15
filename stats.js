@@ -104,7 +104,7 @@ async function createMatchData(difficulty) {
 const aghsStats = async (difficulty) => {
     if (difficulty) return createMatchData(difficulty)
     console.log('test')
-    return [await createMatchData(0), await createMatchData(1), await createMatchData(2)]
+    return [await createMatchData(4), await createMatchData(3), await createMatchData(2)]
 }
 
 module.exports = aghsStats
