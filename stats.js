@@ -53,13 +53,13 @@ function convertData(data) {
         })
         .map((match) => match
             .map((player) => {
-                if (player.hero) return { ...player, hero: convertHeroNames(player.hero) }
+                if (player && player.hero) return { ...player, hero: convertHeroNames(player.hero) }
                 return player
             })
         ).map((match) => {
             const changedData = { players: [], levelData: {}, matchId: null }
             match.forEach(entry => {
-                if (entry.hero) changedData.players.push(entry)
+                if (entry && entry.hero) changedData.players.push(entry)
                 else if (typeof entry === 'string') changedData.matchId = entry
                 else changedData.levelData = convertLevelData(entry)
             })
@@ -77,10 +77,10 @@ function convertSingleGame(data, matchId) {
             return convertedMatch
         })
     singleGame.map((player) => {
-        if (player.hero) return { ...player, hero: convertHeroNames(player.hero) }
+        if (player &&player.hero) return { ...player, hero: convertHeroNames(player.hero) }
         return player
     }).forEach((entry) => {
-        if (entry.hero) changedData.players.push(entry)
+        if (entry && entry.hero) changedData.players.push(entry)
         else if (typeof entry === 'string') changedData.matchId = entry
         else changedData.levelData = convertLevelData(entry)
     })
@@ -99,7 +99,7 @@ async function createMatchData(difficulty) {
     const shardWinrates = {}
     // console.log(convertedHeroes)
     convertedData.forEach(match => match.players.forEach(player => {
-        if (player.victory || !player.hero || !convertedHeroes[player.hero]) return
+        if (!player || player.victory || !player.hero || !convertedHeroes[player.hero]) return
         match.levelData.victory ? convertedHeroes[player.hero].victories++ : convertedHeroes[player.hero].defeats++
         convertedHeroes[player.hero].totalGames++
         convertedHeroes[player.hero].deaths += player.deaths
