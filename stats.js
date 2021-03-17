@@ -44,12 +44,13 @@ function convertLevelData(levels) {
 }
 
 function convertData(data) {
+    // console.log(data)
     return Object.entries(data)
         .map((match) => {
             const convertedMatch = Object.entries(match[1])
                 .map(ent => Object.entries(ent)).map(ent => ent[1])
                 .map((ent) => ent[1])
-            return [...convertedMatch, match[0].slice(6)]
+            return [...convertedMatch, match[0]]
         })
         .map((match) => match
             .map((player) => {
@@ -77,7 +78,7 @@ function convertSingleGame(data, matchId) {
             return convertedMatch
         })
     singleGame.map((player) => {
-        if (player &&player.hero) return { ...player, hero: convertHeroNames(player.hero) }
+        if (player && player.hero) return { ...player, hero: convertHeroNames(player.hero) }
         return player
     }).forEach((entry) => {
         if (entry && entry.hero) changedData.players.push(entry)
@@ -88,8 +89,8 @@ function convertSingleGame(data, matchId) {
 }
 
 async function createMatchData(difficulty) {
-    const data = await axios.get(`${config.FIREBASE_URI}/ascension_${difficulty}.json`)
-    const convertedData = convertData(data)
+    const data = await axios.get(`${config.FIREBASE_URI}ascension_${difficulty}.json`)
+    const convertedData = convertData(data.data)
     // console.log(convertedData[0])
     const convertedHeroes = Heroes
         .map(hero => {
@@ -136,6 +137,7 @@ async function getIndividualGame(difficulty, match) {
 }
 
 const aghsStats = async (difficulty, match) => {
+    // console.log(config.FIREBASE_URI)
     if (difficulty && match) return getIndividualGame(difficulty, match)
     else if (difficulty) return createMatchData(difficulty)
     console.log('---------fetching new data---------')
