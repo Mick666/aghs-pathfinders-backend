@@ -50,6 +50,7 @@ const typeDefs = gql`
     type Match {
         levelData: levelData!
         players: [player!]!
+        matchId: String!
     }
 
     type levelData {
@@ -165,6 +166,7 @@ const typeDefs = gql`
         victoriousMatches(hero: String, first: Int, after: Int, difficulty: Int!): [Match]
         victoriousMatchesCount(hero: String, difficulty: Int!): Int!
         allChangelogs: [changelog!]!
+        individualGame(difficulty: String!, matchId: String!): Match
     }
 
     type Mutation {

@@ -1,8 +1,8 @@
 const Heroes = require('./Heroes')
 // eslint-disable-next-line
-const grandMagus = require('./Pathfinders - Apex Mage.json')
+const apexMage = require('./Pathfinders - Apex Mage.json')
 // eslint-disable-next-line
-const apexMage = require('./pathfinder.json')
+const grandMagus = require('./pathfinder.json')
 // eslint-disable-next-line
 const sorcerer = require('./Pathfinders - Sorcerer.json')
 const config = require('./utils/config')
@@ -10,22 +10,22 @@ const axios = require('axios')
 
 const convertHeroNames = (string) => {
     switch (string) {
-        case 'nevermore': return 'ShadowFiend'
-        case 'ogre_magi': return 'OgreMagi'
-        case 'legion_commander': return 'LegionCommander'
-        case 'phantom_assassin': return 'PhantomAssassin'
-        case 'queenofpain': return 'QueenofPain'
-        case 'templar_assassin': return 'TemplarAssassin'
-        case 'winter_wyvern': return 'WinterWyvern'
-        case 'witch_doctor': return 'WitchDoctor'
-        case 'magnataur': return 'Magnus'
-        case 'windrunner': return 'Windranger'
-        case 'dragon knight': return 'DragonKnight'
-        case 'dragon_knight': return 'DragonKnight'
-        default:
-            return string
-                .replace(/([a-z])/, function (v) { return v.toUpperCase() })
-                .replace('_', ' ')
+    case 'nevermore': return 'ShadowFiend'
+    case 'ogre_magi': return 'OgreMagi'
+    case 'legion_commander': return 'LegionCommander'
+    case 'phantom_assassin': return 'PhantomAssassin'
+    case 'queenofpain': return 'QueenofPain'
+    case 'templar_assassin': return 'TemplarAssassin'
+    case 'winter_wyvern': return 'WinterWyvern'
+    case 'witch_doctor': return 'WitchDoctor'
+    case 'magnataur': return 'Magnus'
+    case 'windrunner': return 'Windranger'
+    case 'dragon knight': return 'DragonKnight'
+    case 'dragon_knight': return 'DragonKnight'
+    default:
+        return string
+            .replace(/([a-z])/, function (v) { return v.toUpperCase() })
+            .replace('_', ' ')
     }
 }
 
@@ -43,26 +43,53 @@ function convertLevelData(levels) {
     return convertedData
 }
 
-async function createMatchData(difficulty) {
-    const rawData = await axios.get(`${config.FIREBASE_URI}/ascension_${difficulty}.json`)
-    const convertedData = Object.entries(rawData.data)
-        .map((match) => Object.entries(match[1])
-            .map(ent => Object.entries(ent)).map(ent => ent[1])
-            .map((ent) => ent[1])
-        )
+function convertData(data) {
+    return Object.entries(data)
+        .map((match) => {
+            const convertedMatch = Object.entries(match[1])
+                .map(ent => Object.entries(ent)).map(ent => ent[1])
+                .map((ent) => ent[1])
+            return [...convertedMatch, match[0].slice(6)]
+        })
         .map((match) => match
             .map((player) => {
-                if (player && player.hero) return { ...player, hero: convertHeroNames(player.hero) }
+                if (player.hero) return { ...player, hero: convertHeroNames(player.hero) }
                 return player
             })
-        ).map(match => {
-            const changedData = { players: [], levelData: {} }
+        ).map((match) => {
+            const changedData = { players: [], levelData: {}, matchId: null }
             match.forEach(entry => {
-                if (entry && entry.hero) changedData.players.push(entry)
+                if (entry.hero) changedData.players.push(entry)
+                else if (typeof entry === 'string') changedData.matchId = entry
                 else changedData.levelData = convertLevelData(entry)
             })
             return changedData
         }).filter(x => x && x.levelData && x.levelData.rooms && x.levelData.rooms.length > 1)
+}
+
+function convertSingleGame(data, matchId) {
+    const changedData = { players: [], levelData: {}, matchId: matchId }
+    const singleGame = Object.entries(data)
+        .map((match) => {
+            // console.log(match)
+            const convertedMatch = match[1]
+            // console.log(convertedMatch)
+            return convertedMatch
+        })
+    singleGame.map((player) => {
+        if (player.hero) return { ...player, hero: convertHeroNames(player.hero) }
+        return player
+    }).forEach((entry) => {
+        if (entry.hero) changedData.players.push(entry)
+        else if (typeof entry === 'string') changedData.matchId = entry
+        else changedData.levelData = convertLevelData(entry)
+    })
+    return changedData
+}
+
+async function createMatchData(difficulty) {
+    const data = await axios.get(`${config.FIREBASE_URI}/ascension_${difficulty}.json`)
+    const convertedData = convertData(data)
     // console.log(convertedData[0])
     const convertedHeroes = Heroes
         .map(hero => {
@@ -101,9 +128,18 @@ async function createMatchData(difficulty) {
     return { convertedData: convertedData, convertedHeroes: convertedHeroes, heroAsArray: heroAsArray, victoriousGames: victoriousGames.reverse(), shardWinrates: shardsAsArray }
 }
 
-const aghsStats = async (difficulty) => {
-    if (difficulty) return createMatchData(difficulty)
-    console.log('test')
+async function getIndividualGame(difficulty, match) {
+    const rawData = await axios.get(`${config.FIREBASE_URI}/ascension_${difficulty}/match_${match}.json`)
+    if (!rawData.data) return 'No match found'
+    const convertedData = convertSingleGame(rawData.data, match)
+    return convertedData
+}
+
+const aghsStats = async (difficulty, match) => {
+    if (difficulty && match) return getIndividualGame(difficulty, match)
+    else if (difficulty) return createMatchData(difficulty)
+    console.log('---------fetching new data---------')
+    // return [await createMatchData(apexMage), await createMatchData(grandMagus), await createMatchData(sorcerer)]
     return [await createMatchData(4), await createMatchData(3), await createMatchData(2)]
 }
 

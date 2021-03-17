@@ -2,7 +2,7 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer, UserInputError } = require('apollo-server-express')
 const mongoose = require('mongoose')
 const typeDefs = require('./typeDefs')
 const Guide = require('./schemas/guideSchema')
@@ -60,6 +60,15 @@ const resolvers = {
             const vicStats = await statsData
             const vicGames = vicStats.map(difficulty => difficulty.victoriousGames)
             if (!args.hero) return vicGames[args.difficulty].length
+        },
+        individualGame: async (root, args) => {
+            const individualGameData = await Stats(args.difficulty, args.matchId)
+            if (individualGameData === 'No match found') {
+                throw new UserInputError('No match found', {
+                    invalidArgs: args.matchId,
+                })
+            }
+            return individualGameData
         },
         allChangelogs: (root, args) => Changelog.find({}).sort({ _id: -1}),
         heroStats: async (root, args) => {
