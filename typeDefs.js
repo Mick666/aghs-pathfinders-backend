@@ -141,6 +141,15 @@ const typeDefs = gql`
         victoriousGames: [Match!]!
     }
 
+    type recentContent {
+        victoriousMatches: [recentMatches]
+        guides: [Guide!]!
+    }
+
+    type recentMatches {
+        difficulty: [Match]
+    }
+
     type changelog {
         title: String!
         changes: [String!]!
@@ -165,6 +174,7 @@ const typeDefs = gql`
         heroStats(hero: String!): [singleHeroStats!]!
         victoriousMatches(hero: String, first: Int, after: Int, difficulty: Int!): [Match]
         victoriousMatchesCount(hero: String, difficulty: Int!): Int!
+        recentContent: recentContent
         allChangelogs: [changelog!]!
         individualGame(difficulty: String!, matchId: String!): Match
     }

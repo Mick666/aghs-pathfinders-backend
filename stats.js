@@ -154,9 +154,7 @@ const aghsStats = async (difficulty, match) => {
     if (difficulty && match) return getIndividualGame(difficulty, match)
     else if (difficulty) return createMatchData(difficulty)
     console.log('---------fetching new data---------')
-    return config.NODE_ENV === 'development' ? 
-        [await createMatchData(apexMage), await createMatchData(grandMagus), await createMatchData(sorcerer)] :
-        [await createMatchData(4), await createMatchData(3), await createMatchData(2)]
+    return [await createMatchData(4), await createMatchData(3), await createMatchData(2)]
 }
 
 module.exports = aghsStats

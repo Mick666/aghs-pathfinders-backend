@@ -61,6 +61,15 @@ const resolvers = {
             const vicGames = vicStats.map(difficulty => difficulty.victoriousGames)
             if (!args.hero) return vicGames[args.difficulty].length
         },
+        recentContent: async () => {
+            const vicStats = await statsData
+            const vicGames = vicStats.map(difficulty => difficulty.victoriousGames).map(difficulty => difficulty.slice(0, 3))
+            const guides = await Guide.find({}).sort({ _id: -1 })
+            return {
+                victoriousGames: vicGames,
+                recentGuides: guides
+            }
+        },
         individualGame: async (root, args) => {
             const individualGameData = await Stats(args.difficulty, args.matchId)
             if (individualGameData === 'No match found') {
@@ -95,12 +104,12 @@ const resolvers = {
     }
 }
 
-app.use(express.static('build'))
+// app.use(express.static('build'))
 
-app.get('*', (req, res) => {
-    let url = path.join(__dirname, './build', 'index.html')
-    res.sendFile(url)
-})
+// app.get('*', (req, res) => {
+//     let url = path.join(__dirname, './build', 'index.html')
+//     res.sendFile(url)
+// })
 
 const server = new ApolloServer({
     typeDefs,
