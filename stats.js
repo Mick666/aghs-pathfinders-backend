@@ -150,7 +150,6 @@ async function getIndividualGame(difficulty, match) {
 }
 
 const aghsStats = async (difficulty, match) => {
-    // console.log(config.FIREBASE_URI)
     if (difficulty && match) return getIndividualGame(difficulty, match)
     else if (difficulty) return createMatchData(difficulty)
     console.log('---------fetching new data---------')
