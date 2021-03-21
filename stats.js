@@ -88,10 +88,23 @@ function convertSingleGame(data, matchId) {
     return changedData
 }
 
+async function getMatchData(difficulty) {
+    const difficultyToFile = { 4: apexMage, 3: grandMagus, 2: sorcerer}
+    if (config.NODE_ENV === 'development') {
+        return difficultyToFile[difficulty]
+    } else {
+        try {
+            const data = await axios.get(`${config.FIREBASE_URI}ascension_${difficulty}.json`)
+            return data.data
+        } catch (error) {
+            return difficultyToFile[difficulty]
+        }
+    }
+}
+
 async function createMatchData(difficulty) {
-    const data = await axios.get(`${config.FIREBASE_URI}ascension_${difficulty}.json`)
-    const convertedData = convertData(data.data)
-    // console.log(convertedData[0])
+    const data = await getMatchData(difficulty)
+    const convertedData = convertData(data)
     const convertedHeroes = Heroes
         .map(hero => {
             return { totalGames: 0, victories: 0, defeats: 0, deaths: 0, heroId: hero.id, hero: hero.name, depth: [], popularShards: [], items: [], winningShards: [] }
@@ -141,8 +154,9 @@ const aghsStats = async (difficulty, match) => {
     if (difficulty && match) return getIndividualGame(difficulty, match)
     else if (difficulty) return createMatchData(difficulty)
     console.log('---------fetching new data---------')
-    // return [await createMatchData(apexMage), await createMatchData(grandMagus), await createMatchData(sorcerer)]
-    return [await createMatchData(4), await createMatchData(3), await createMatchData(2)]
+    return config.NODE_ENV === 'development' ? 
+        [await createMatchData(apexMage), await createMatchData(grandMagus), await createMatchData(sorcerer)] :
+        [await createMatchData(4), await createMatchData(3), await createMatchData(2)]
 }
 
 module.exports = aghsStats
