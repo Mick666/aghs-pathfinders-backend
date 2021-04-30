@@ -81,6 +81,7 @@ const typeDefs = gql`
         Axe: heroDifficultyData!
         Disruptor: heroDifficultyData!
         Hoodwink: heroDifficultyData!
+        Dawnbreaker: heroDifficultyData!
         DragonKnight: heroDifficultyData!
         Jakiro: heroDifficultyData!
         Juggernaut: heroDifficultyData!

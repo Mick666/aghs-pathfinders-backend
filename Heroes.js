@@ -27,6 +27,27 @@ const Heroes = [
             'pathfinder_axe_special_culling_blade_leap']
     },
     {
+        id: 'Dawnbreaker',
+        name: 'Dawnbreaker',
+        image: 'https://static.wikia.nocookie.net/dota2_gamepedia/images/d/d6/Dawnbreaker_icon.png',
+        banner: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/dawnbreaker/wallpapers/dota_db_wallpaper.png',
+        talents: [
+            ['+40% Magic Resistance', '25', '2500 Celestial Hammer Range'],
+            ['-40% Solar Guardian Cooldown', '20', '+40% Luminosity Critical Damage'],
+            ['+10s Celestial Hammer Return Delay', '15', '+20 Damage'],
+            ['+20 Damage', '10', '+8 Strength'],
+        ],
+        abilities: ['starbreaker', 'celestialHammer', 'converge', 'luminosity', 'solarGuardian'],
+        shards: [
+            'dawnbreaker_celestial_hammer_lua_illusion',
+            'dawnbreaker_luminosity_lua_stacking',
+            'dawnbreaker_starbreaker_lua_solar_pulse',
+            'dawnbreaker_starbreaker_lua_max_luminosity',
+            'dawnbreaker_starbreaker_lua_smash_sleep',
+            'dawnbreaker_luminosity_lua_charge'
+        ]
+    },
+    {
         id: 'DragonKnight',
         name: 'Dragon Knight',
         image: 'https://static.wikia.nocookie.net/dota2_gamepedia/images/5/59/Dragon_Knight_icon.png',
