@@ -1,8 +1,8 @@
 const Heroes = require('./Heroes')
 // eslint-disable-next-line
-const apexMage = require('./Pathfinders - Apex Mage1.json')
+const apexMage = require('./Pathfinders - Apex Mage.json')
 // eslint-disable-next-line
-const grandMagus = require('./pathfinder1.json')
+const grandMagus = require('./pathfinder.json')
 // eslint-disable-next-line
 const sorcerer = require('./Pathfinders - Sorcerer.json')
 const config = require('./utils/config')
