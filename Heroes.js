@@ -8,7 +8,7 @@ const Heroes = [
         talents: [
             ['+100 Battle Hunger DPS', '25', '+800 Berserker\'s Call'],
             ['+20 Health Regen', '20', '+180 Culling Blade Kill Threshold'],
-            ['+Attacking Proc Counter Helix', '15', '+5 Mana Regen'],
+            ['Attacking Proc Counter Helix', '15', '+5 Mana Regen'],
             ['+20 Movement Speed', '10', '+25 Attack Speed'],
         ],
         abilities: ['beserkersCall', 'battleHunger', 'counterHelix', 'cullingBlade', 'talentTree'],
@@ -44,7 +44,13 @@ const Heroes = [
             'dawnbreaker_starbreaker_lua_solar_pulse',
             'dawnbreaker_starbreaker_lua_max_luminosity',
             'dawnbreaker_starbreaker_lua_smash_sleep',
-            'dawnbreaker_luminosity_lua_charge'
+            'dawnbreaker_luminosity_lua_charge',
+            'dawnbreaker_celestial_hammer_lua_skewer',
+            'dawnbreaker_celestial_hammer_lua_trail_heal',
+            'dawnbreaker_luminosity_lua_explosion',
+            'dawnbreaker_solar_guardian_lua_charges',
+            'dawnbreaker_solar_guardian_lua_permanent_dummy',
+            'dawnbreaker_solar_guardian_lua_capture',
         ]
     },
     {
@@ -71,7 +77,8 @@ const Heroes = [
             'pathfinder_dk_elder_dragon_form_fear',
             'pathfinder_dk_dragon_blood_active',
             'pathfinder_dk_elder_dragon_form_attack',
-            'pathfinder_dk_dragon_tail_chain']
+            'pathfinder_dk_dragon_tail_chain'
+        ]
 
     },
     {
@@ -193,16 +200,17 @@ const Heroes = [
             ['+6% Spell Amplification', '10', '+2s Icarus Dive Debuff Duration'],
         ],
         abilities: ['icarusDive', 'fireSpirits', 'sunRay', 'supernova', 'talentTree'],
-        shards: ['aggressiveTraining',
-            'luxMementoMori',
-            'eternalSunshineOfTheSpotlessMind',
-            'loopDeLoop',
-            'grassGrowsBirdFliesSunShines',
-            'galileosRevenge',
-            'fortunateSun',
-            'blackHoleSun',
-            'fabulousFowl',
-            'mileHighClub',
+        shards: ['pathfinder_fire_spirit_sun_strike',
+            'pathfinder_fire_spirit_baby',
+            'pathfinder_sun_ray_infinite',
+            'pathfinder_icarus_dive_loop',
+            'pathfinder_icarus_dive_flyby',
+            'pathfinder_fire_spirit_shell',
+            'pathfinder_supernova_allies',
+            'pathfinder_supernova_blackhole',
+            'pathfinder_sun_ray_star',
+            'pathfinder_icarus_dive_bkb',
+            'pathfinder_supernova_heal_bkb',
         ]
     },
     {
@@ -699,15 +707,19 @@ const Heroes = [
             ['+1s Shackleshot Stun Duration', '10', '+2.5 Mana Regen'],
         ],
         abilities: ['shackleshot', 'powershot', 'windrun', 'focusFire', 'talentTree'],
-        shards: ['pathfinder_special_windranger_shackleshot_aoe',
+        shards: ['pathfinder_special_windranger_shackleshot_armor',
             'pathfinder_special_windranger_windrun_cyclone',
-            'pathfinder_special_windranger_shackleshot_armor',
+            'pathfinder_special_windranger_shackleshot_aoe',
             'pathfinder_special_windranger_shackleshot_sleep',
             'pathfinder_special_windranger_powershot_multishot',
             'pathfinder_special_windranger_powershot_repeating',
             'pathfinder_special_windranger_windrun_aoe',
             'pathfinder_special_windranger_focusfire_trueshot',
-            'pathfinder_special_windranger_focusfire_global']
+            'pathfinder_special_windranger_focusfire_global',
+            'pathfinder_special_windranger_windrun_invis',
+            'pathfinder_special_windranger_powershot_ricochet',
+            'pathfinder_special_windranger_focusfire_lifesteal',
+            'pathfinder_special_windranger_powershot_attacks']
     },
     {
         id: 'WinterWyvern',
