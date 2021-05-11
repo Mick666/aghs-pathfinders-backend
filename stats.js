@@ -1,10 +1,10 @@
 const Heroes = require('./Heroes')
 // eslint-disable-next-line
-const apexMage = require('./Pathfinders - Apex Mage.json')
-// eslint-disable-next-line
-const grandMagus = require('./pathfinder.json')
-// eslint-disable-next-line
-const sorcerer = require('./Pathfinders - Sorcerer.json')
+// const apexMage = require('./Pathfinders - Apex Mage.json')
+// // eslint-disable-next-line
+// const grandMagus = require('./pathfinder.json')
+// // eslint-disable-next-line
+// const sorcerer = require('./Pathfinders - Sorcerer.json')
 const config = require('./utils/config')
 const axios = require('axios')
 
@@ -89,7 +89,8 @@ function convertSingleGame(data, matchId) {
 }
 
 async function getMatchData(difficulty) {
-    const difficultyToFile = { 4: apexMage, 3: grandMagus, 2: sorcerer}
+    // const difficultyToFile = { 4: apexMage, 3: grandMagus, 2: sorcerer}
+    const difficultyToFile = { 4: null, 3: null, 2: null}
     if (config.NODE_ENV === 'development') {
         return difficultyToFile[difficulty]
     } else {
