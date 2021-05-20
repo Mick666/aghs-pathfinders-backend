@@ -17,6 +17,14 @@ async function fetchStats(difficulty) {
     return await Stats(difficulty)
 }
 
+
+// async function fetchStats(difficulty) {
+//     const url = 'http://localhost:4002/stats'
+//     const data = await axios.get(url)
+//     console.log(typeof data)
+//     return data.data
+// }
+
 mongoose
     .connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => {

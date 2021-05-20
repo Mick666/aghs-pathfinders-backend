@@ -140,7 +140,7 @@ async function createMatchData(difficulty) {
     const shardsAsArray = Object.entries(shardWinrates).map(x => x[1])
     const victoriousGames = convertedData.filter(match => match.levelData.victory)
     // console.log(convertedData[0])
-    return { convertedData: convertedData, convertedHeroes: convertedHeroes, heroAsArray: heroAsArray, victoriousGames: victoriousGames.reverse(), shardWinrates: shardsAsArray }
+    return { convertedData: convertedData, convertedHeroes: convertedHeroes, heroAsArray: heroAsArray, victoriousGames: victoriousGames.reverse().slice(0, 100), shardWinrates: shardsAsArray }
 }
 
 async function getIndividualGame(difficulty, match) {
