@@ -585,6 +585,33 @@ const Heroes = [
             'aghsfort_special_weaver_time_lapse_explosion']
     },
     {
+        id: 'Dazzle',
+        name: 'Dazzle',
+        image: 'https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e6/Dazzle_icon.png',
+        banner: 'https://i.imgur.com/KP9ndMW.jpg',
+        talents: [
+            ['+200 Shadow Wave Damage and Heal', '25', '+2 Poison Touch Max Stacks'],
+            ['Shallow Grave is always recasted on Dazzle', '20', '+7% Bad Juju Cooldown Reduction'],
+            ['+60 Attack Speed', '15', '+30 Movement Speed'],
+            ['+3 Mana Regen', '10', '+50 Damage'],
+        ],
+        abilities: ['poisonTouch', 'shallowGrave', 'shadowWave', 'badJuju'],
+        shards: [
+            'pf_poison_touch_spread',
+            'pf_poison_touch_ward',
+            'pf_poison_touch_chain',
+            'pf_shallow_grave_invis',
+            'pf_shallow_grave_aoe',
+            'pf_shallow_grave_ground',
+            'pf_shadow_wave_enemy',
+            'pf_shadow_wave_proc',
+            'pf_shadow_wave_dispel',
+            'pf_bad_juju_attacks',
+            'pf_bad_juju_heal',
+            'pf_bad_juju_raze'
+        ]
+    },
+    {
         id: 'Disruptor',
         name: 'Disruptor',
         image: 'https://static.wikia.nocookie.net/dota2_gamepedia/images/9/97/Disruptor_icon.png',
