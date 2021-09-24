@@ -803,8 +803,22 @@ const Heroes = [
             'aghsfort_special_witch_doctor_death_ward_no_channel',
             'aghsfort_special_witch_doctor_death_ward_damage_resist',
             'aghsfort_special_witch_doctor_death_ward_splitshot']
+    },
+    {
+        id: 'Zuus',
+        name: 'Zeus',
+        image: 'https://static.wikia.nocookie.net/dota2_gamepedia/images/3/3f/Zeus_icon.png',
+        banner: 'https://static-prod.weplay.tv/2020-02-03/32e0f27b58c33184279921d8dd4c9523_large_cover.2F3941-A4BCC3-8099A6.jpeg',
+        desc: 'Zeus',
+        talents: [
+            ['4s Spell Immunity after casting Thundergod\'s Wrath', '25', 'Non-Ultimate abilities pierce Spell Immunity'],
+            ['-30 Thundergod\'s Wrath Cooldown', '20', '+150% Static Field Damage Multiplier'],
+            ['-5% Ability Cooldowns on Every Attack', '15', '+15% Spell Amplification'],
+            ['0.15s Arc Lightning Ministun', '10', '+12 Intelligence'],
+        ],
+        abilities: ['arcLightning', 'lightningBolt', 'StaticField', 'thundergodsWrath', 'talentTree'],
+        shards: []
     }
-
 ]
 
 module.exports = Heroes
