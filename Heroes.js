@@ -817,7 +817,18 @@ const Heroes = [
             ['0.15s Arc Lightning Ministun', '10', '+12 Intelligence'],
         ],
         abilities: ['arcLightning', 'lightningBolt', 'StaticField', 'thundergodsWrath', 'talentTree'],
-        shards: []
+        shards: ['pathfinder_zuus_arc_lightning_multi_enemy_bounce',
+            'pathfinder_zuus_arc_lightning_ally_bounce_buff',
+            'pathfinder_zuus_arc_lightning_projectile',
+            'pathfinder_zuus_lightning_bolt_kill_recast',
+            'pathfinder_zuus_lightning_bolt_self_cast',
+            'pathfinder_zuus_lightning_bolt_linear_cast',
+            'pathfinder_zuus_cloud',
+            'pathfinder_zuus_static_field_attack_arc_lightning',
+            'pathfinder_zuus_heavenly_jump',
+            'pathfinder_zuus_thundergods_wrath_autosmite',
+            'pathfinder_zuus_thundergods_wrath_multistrike',
+            'pathfinder_zuus_thundergods_wrath_ground_target']
     }
 ]
 
